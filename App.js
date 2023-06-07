@@ -1,87 +1,43 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native';
-import Cadastro from './src/screens/cadastro';
+import { StyleSheet, SafeAreaView} from 'react-native'
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/screens/Login';
+import Cadastro from './src/screens/cadastro';
 
-export default function App() {
+const Stack = createStackNavigator();
 
+const App = () => {
   return (
-    <KeyboardAvoidingView style={styles.background}>
-      <View style={styles.container}>
-        <TextInput
-        style={styles.input}
-        placeholder='Email'
-        autoCorrect={false}
-        onChangeText={()=> {}}
+
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Monitor Sinais Vitais"
+          component={LoginScreen}
+          options={{ headerShown: true }}
+          />
+
+        <Stack.Screen 
+          name='Novo Cadastro'
+          component={Cadastro}
+          options={{ 
+            headerShown: true
+          }}
         />
-
-        <TextInput
-        style={styles.input}
-        placeholder='Senha'
-        autoCorrect={false}
-        onChangeText={()=> {}}
-        />
+      </Stack.Navigator>
+    </NavigationContainer>
           
-        <TouchableOpacity style={styles.btnAcessar}>
-          <Text style={styles.acessarText}>Acessar</Text>
-          
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btnNovaConta}>
-          <Text style={styles.novaContaText}>Criar Nova Conta</Text>
-        </TouchableOpacity>
-
-        {/* <LoginScreen />
-        <StatusBar style="auto" /> */}
-      </View>
-    </KeyboardAvoidingView>
   );
-}
+};
 
+export default App;
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '90%',
-    paddingBottom: 30,
+    backgroundColor: '#fff'
   },
-  input:{
-    backgroundColor: '#e6ebe6',
-    width: '90%',
-    marginBottom: 15,
-    color: '#a9b0a9',
-    fontSize: 17,
-    borderRadius: 7,
-    padding: 10,    
-  },
-  btnAcessar:{
-    backgroundColor: '#35AAFF',
-    width: '90%',
-    height: 45,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 7,
-  },
-  acessarText:{
-    color: '#f5faf5',
-    fontSize: 18,  
-  },
-  btnNovaConta:{
-    marginTop: 10,
-  },
-  novaContaText:{
-    color:'#1e1f1e',
-  }
-  
-
-});
+})
