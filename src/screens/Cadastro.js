@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Alert, StyleSheet, SafeAreaView } from 'react-native';
 
 const Cadastro = () => {
   const [nome, setNome] = useState('');
@@ -49,55 +49,57 @@ const Cadastro = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+    <View >
       <TextInput
         placeholder="Nome"
         value={nome}
         onChangeText={setNome}
         style={styles.input}
-      />
+        />
       <TextInput
         placeholder="Senha"
         secureTextEntry
         value={senha}
         onChangeText={setSenha}
         style={styles.input}
-      />
+        />
       <TextInput
         placeholder="Confirmar Senha"
         secureTextEntry
         value={confirmarSenha}
         onChangeText={setConfirmarSenha}
         style={styles.input}
-      />
+        />
       <TextInput
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
         style={styles.input}
-      />
+        />
       <Button
         title="Cadastrar"
         onPress={cadastrar}
         style={styles.input}
-      />
+        />
     </View>
+        </SafeAreaView>
   );
 };
 
 export default Cadastro;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   input: {
     borderWidth: 2,
     borderColor: '#ccc',
     marginBottom: 20,
     color: '#ccc'
   },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
 
 })
