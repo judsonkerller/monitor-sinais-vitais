@@ -92,10 +92,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   input: {
-    borderWidth: 2,
-    borderColor: '#ccc',
-    marginBottom: 20,
-    color: '#ccc'
+    // borderWidth: 2,
+    // borderColor: '#ccc',
+    // marginBottom: 20,
+    // color: '#ccc'
+    backgroundColor: '#e6ebe6',
+    width: 300,
+    marginBottom: 15,
+    color: '#a9b0a9',
+    fontSize: 17,
+    borderRadius: 7,
+    padding: 10,
   },
 
 })
