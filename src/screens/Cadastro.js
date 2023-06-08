@@ -1,52 +1,44 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Alert, StyleSheet, SafeAreaView } from 'react-native';
+import { Cadastrar } from '../services/requisicoesFirebase';
 
 const Cadastro = () => {
   const [nome, setNome] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [email, setEmail] = useState('');
+  const [mensagemError, setMensagemError] = useState('');
+  const [statusError, setStatusError] = useState('');
 
-  const cadastrar = async () => {
-    // Validação dos campos
-    if (!nome || !senha || !confirmarSenha || !email) {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
-      return;
-    }
+  async function realizarCadastro() {
+    // if (nome != '') {
+    //   setMensagemError('Digite seu nome');
+    //   setStatusError('nome');
+    // } else if (senha == '') {
+    //   setMensagemError('Digite sua senha');
+    //   setStatusError('senha');
+    // } else if (confirmarSenha != senha) {
+    //   setMensagemError('As senhas estão diferentes');
+    //   setStatusError('confirmarSenha');
+    // } else if (email == '') {
+    //   setMensagemError('Digite seu email');
+    //   setStatusError('email');
+    // } else {
+    //   await Cadastrar(nome, senha, confirmarSenha, email);
+    //   setNome('')
+    //   setSenha('')
+    //   setConfirmarSenha('')
+    //   setEmail('')
+    //   setMensagemError('')
+    //   setStatusError('')
+    // }
 
-    if (senha !== confirmarSenha) {
-      Alert.alert('Erro', 'As senhas não coincidem.');
-      return;
-    }
-
-    // Dados para enviar para a API
-    const dados = {
-      nome,
-      senha,
-      email,
-    };
-
-    try {
-      // Chamada para a API usando o fetch ou axios
-      const resposta = await fetch('URL_DA_API', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dados),
-      });
-
-      // Verificar a resposta da API
-      if (resposta.ok) {
-        Alert.alert('Sucesso', 'Cadastro realizado com sucesso.');
-        // Redirecionar para a próxima tela ou realizar outras ações
-      } else {
-        Alert.alert('Erro', 'Não foi possível realizar o cadastro.');
-      }
-    } catch (error) {
-      Alert.alert('Erro', 'Ocorreu um erro ao processar a requisição.');
-    }
-  };
+    await Cadastrar(email, senha);
+      setNome('')
+      setSenha('')
+      setConfirmarSenha('')
+      setEmail('')
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,32 +46,36 @@ const Cadastro = () => {
       <TextInput
         placeholder="Nome"
         value={nome}
-        onChangeText={setNome}
+        onChangeText={texto => setNome(texto)}
         style={styles.input}
+        error={statusError == 'nome'}
         />
       <TextInput
         placeholder="Senha"
         secureTextEntry
         value={senha}
-        onChangeText={setSenha}
+        onChangeText={texto => setSenha(texto)}
         style={styles.input}
+        error={statusError == senha}
         />
       <TextInput
         placeholder="Confirmar Senha"
         secureTextEntry
         value={confirmarSenha}
-        onChangeText={setConfirmarSenha}
+        onChangeText={texto => setConfirmarSenha(texto)}
         style={styles.input}
+        error={statusError == 'confirmarSenha'}
         />
       <TextInput
         placeholder="Email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={texto => setEmail(texto)}
         style={styles.input}
+        error={statusError == 'email'}
         />
       <Button
         title="Cadastrar"
-        onPress={cadastrar}
+        onPress={() => realizarCadastro()}
         style={styles.input}
         />
     </View>

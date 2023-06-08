@@ -3,7 +3,7 @@ import { StyleSheet, SafeAreaView} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/screens/Login';
-import Cadastro from './src/screens/cadastro';
+import Cadastro from './src/screens/Cadastro';
 
 const Stack = createStackNavigator();
 
