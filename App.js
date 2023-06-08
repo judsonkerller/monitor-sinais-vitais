@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView} from 'react-native'
+import { StyleSheet, SafeAreaView } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/screens/Login';
@@ -13,7 +13,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Monitor Sinais Vitais"
+          name="Monitor de Sinais Vitais"
           component={LoginScreen}
           options={{ headerShown: true }}
           />

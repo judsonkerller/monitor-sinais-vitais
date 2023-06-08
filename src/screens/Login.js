@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -10,7 +10,13 @@ const LoginScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
 
+      
+        <Image
+          style={styles.logo}
+          source={require('../../assets/logo-principal.png')}
+          />
     <KeyboardAvoidingView>
+
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -32,8 +38,6 @@ const LoginScreen = () => {
           <Text style={styles.novaContaText} >Criar Nova Conta</Text>
         </TouchableOpacity>
 
-        {/* <LoginScreen />
-    <StatusBar style="auto" /> */}
       </View>
     </KeyboardAvoidingView>
    
@@ -45,12 +49,19 @@ const LoginScreen = () => {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  
+  logo: {
+    width: '25rem',
+    height: '25rem',
+    marginTop: '-10rem'
+  },  
   inputContainer: {
     alignItems: 'center',
     justifyContent: 'center',
