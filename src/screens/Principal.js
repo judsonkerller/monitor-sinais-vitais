@@ -9,14 +9,12 @@ const Principal = () => {
 
     return (
       <SafeAreaView style={styles.container}>
-
       <View styles={styles.container}>
         <Text>Principal</Text>
-
       </View>
-      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('Cadastro Sinais Vitais')}>
-      <Ionicons name="add-outline" size={40} color="#1F2B5B" />
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('Cadastro Sinais Vitais')}>
+          <Ionicons name="add-outline" size={40} color="#1F2B5B" />
+        </TouchableOpacity>
       </SafeAreaView>
     )
 }

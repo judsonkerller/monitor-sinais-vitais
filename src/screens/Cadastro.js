@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { View, TextInput, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { Cadastrar } from '../services/requisicoesFirebase';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { TouchableOpacity } from 'react-native';
+import Alerta from '../components/Alerta';
 
 const Cadastro = () => {
   const navigation = useNavigation();
@@ -16,35 +17,19 @@ const Cadastro = () => {
   const [statusError, setStatusError] = useState('');
 
   async function realizarCadastro() {
-    // if (nome != '') {
-    //   setMensagemError('Digite seu nome');
-    //   setStatusError('nome');
-    // } else if (senha == '') {
-    //   setMensagemError('Digite sua senha');
-    //   setStatusError('senha');
-    // } else if (confirmarSenha != senha) {
-    //   setMensagemError('As senhas estão diferentes');
-    //   setStatusError('confirmarSenha');
-    // } else if (email == '') {
-    //   setMensagemError('Digite seu email');
-    //   setStatusError('email');
-    // } else {
-    //   await Cadastrar(nome, senha, confirmarSenha, email);
-    //   setNome('')
-    //   setSenha('')
-    //   setConfirmarSenha('')
-    //   setEmail('')
-    //   setMensagemError('')
-    //   setStatusError('')
-    // }
-
-    await Cadastrar(email, senha);
+    const resultado = await Cadastrar(email, senha);
+    setStatusError('firebase')
+    if(resultado == 'sucesso'){
+      setMensagemError('Usuário criado com sucesso!')
       setNome('')
       setSenha('')
       setConfirmarSenha('')
       setEmail('')
       
       navigation.goBack();
+    } else {
+      setMensagemError(resultado)
+    }
   }
 
   return (
@@ -84,6 +69,12 @@ const Cadastro = () => {
         onChangeText={texto => setEmail(texto)}
         style={styles.input}
         error={statusError == 'email'}
+        />
+         
+        <Alerta 
+          mensagem={mensagemError}
+          error={statusError == 'firebase'}
+          setError={setStatusError}
         />
       
       <TouchableOpacity style={styles.signup} onPress={() => realizarCadastro()}>
@@ -131,6 +122,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#1F2B5B',
     alignItems: "center",
+  },
+  alert: {
+    marginBottom: 10
   },
   textSignup: {
     color: '#fff',
