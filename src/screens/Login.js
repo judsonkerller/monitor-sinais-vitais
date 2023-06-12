@@ -30,8 +30,8 @@ const LoginScreen = () => {
           autoCorrect={false}
           onChangeText={() => { } } />
 
-        <TouchableOpacity style={styles.btnAcessar}>
-          <Text style={styles.acessarText}>Acessar</Text>
+        <TouchableOpacity style={styles.btnAcessar} onPress={() => {navigation.navigate('Principal')}}>
+          <Text style={styles.acessarText}>Login</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.btnNovaConta} onPress={() => {navigation.navigate('Novo Cadastro')}}>
@@ -58,9 +58,9 @@ const styles = StyleSheet.create({
   },
   
   logo: {
-    width: '25rem',
-    height: '25rem',
-    marginTop: '-10rem'
+    width: 400,
+    height: 300,
+    marginTop: -170
   },  
   inputContainer: {
     alignItems: 'center',
@@ -76,8 +76,8 @@ const styles = StyleSheet.create({
     padding: 10,    
   },
   btnAcessar:{
-    backgroundColor: '#35AAFF',
-    width: '50%',
+    backgroundColor: '#1F2B5B',
+    width: '100%',
     height: 45,
     alignItems: 'center',
     justifyContent: 'center',
@@ -86,6 +86,8 @@ const styles = StyleSheet.create({
   acessarText:{
     color: '#f5faf5',
     fontSize: 18,  
+    fontWeight: 700,
+    letterSpacing: 1,
   },
   btnNovaConta:{
     marginTop: 10,

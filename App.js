@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/screens/Login';
 import Cadastro from './src/screens/Cadastro';
+import CadastroSinais from './src/screens/CadastroSinais';
+import Principal from './src/screens/Principal';
 
 const Stack = createStackNavigator();
 
@@ -15,13 +17,29 @@ const App = () => {
         <Stack.Screen
           name="Monitor de Sinais Vitais"
           component={LoginScreen}
-          options={{ headerShown: true }}
+          options={{ headerShown: false }}
           />
 
         <Stack.Screen 
           name='Novo Cadastro'
           component={Cadastro}
           options={{ 
+            headerShown: true
+          }}
+        />
+
+        <Stack.Screen 
+          name='Cadastro Sinais Vitais'
+          component={CadastroSinais}
+          options={{
+            headerShown: true
+          }}
+        />
+
+        <Stack.Screen 
+          name='Principal'
+          component={Principal}
+          options={{
             headerShown: true
           }}
         />
