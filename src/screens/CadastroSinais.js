@@ -1,67 +1,91 @@
 import { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
+import { auth } from '../config/firebase';
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+
+const db = getFirestore(auth);
+
 const CadastroSinais = () => {
-    const [pressao, setPressao] = useState('');
-    const [glicose, setGlicose] = useState('');
-    const [temperatura, setTemperatura] = useState('');
-    const [batimento, setBatimento] = useState('');
+  const [pressao, setPressao] = useState('');
+  const [glicose, setGlicose] = useState('');
+  const [temperatura, setTemperatura] = useState('');
+  const [batimento, setBatimento] = useState('');
+  
+  async function cadastrarSinaisVitais() {
+    const collec = collection(db, "/Sinais-Vitais");
+    await addDoc(collec, {
+      pressao: pressao,
+      glicose: glicose,
+      temperatura: temperatura,
+      batimento: batimento
+    })
+    .then(() => {
+      console.log("Registrado");
+    })
+    .catch((error) => {
+      console.log("Não registrou " + error);
+    });
+  }
 
-    return (
-        <SafeAreaView style={[styles.container, styles.shadowProp]}>
-            <View style={styles.signalsContainer}>
-              <Text style={styles.label}>Pressão (mmHg)</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="120.80"
-                    placeholderTextColor="#ccc"
-                    value={pressao}
-                    onChangeText={pressao => setPressao(pressao)}
-                />
-            </View>
+  return (
+    <SafeAreaView style={[styles.container, styles.shadowProp]}>
+      <View style={styles.signalsContainer}>
+        <Text style={styles.label}>Pressão (mmHg)</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="120.80"
+          placeholderTextColor="#ccc"
+          value={pressao}
+          onChangeText={pressao => setPressao(pressao)}
+          keyboardType="numeric"
+        />
+      </View>
 
-            <View style={styles.signalsContainer}>
-              <Text style={styles.label}>Glicose (mg/dL)</Text>
-              <TextInput
-                  style={styles.input}
-                  placeholder="98"
-                  placeholderTextColor="#ccc"
-                  value={glicose}
-                  onChangeText={glicose => setGlicose(glicose)}
-                  />
-            </View>
-            
-            <View style={styles.signalsContainer}>
-              <Text style={styles.label}>Temperatura (°C)</Text>
-              <TextInput
-                  style={styles.input}
-                  placeholder="34"
-                  placeholderTextColor="#ccc"
-                  value={temperatura}
-                  onChangeText={temperatura => setTemperatura(temperatura)}
-                  keyboardType="numeric"
-                  />
-            </View>
-            
-            <View style={styles.signalsContainer}>
-              <Text style={styles.label}>Batimento (bpm)</Text>
-              <TextInput
-                  style={styles.input}
-                  placeholder="110"
-                  placeholderTextColor="#ccc"
-                  value={batimento}
-                  onChangeText={batimento => setBatimento(batimento)}
-                  />
-            </View>
-            
-            <TouchableOpacity style={styles.btnSalvar} onPress={() => {}}>
-                <Text style={styles.saveText}>Salvar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.btnCancelar} onPress={() => {}}>
-                <Text style={styles.saveText}>Cancelar</Text>
-            </TouchableOpacity>
-        </SafeAreaView>
-    )
+      <View style={styles.signalsContainer}>
+        <Text style={styles.label}>Glicose (mg/dL)</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="98"
+          placeholderTextColor="#ccc"
+          value={glicose}
+          onChangeText={glicose => setGlicose(glicose)}
+          keyboardType="numeric"
+        />
+      </View>
+
+      <View style={styles.signalsContainer}>
+        <Text style={styles.label}>Temperatura (°C)</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="34"
+          placeholderTextColor="#ccc"
+          value={temperatura}
+          onChangeText={temperatura => setTemperatura(temperatura)}
+          keyboardType="numeric"
+        />
+      </View>
+
+      <View style={styles.signalsContainer}>
+        <Text style={styles.label}>Batimento (bpm)</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="110"
+          placeholderTextColor="#ccc"
+          value={batimento}
+          onChangeText={batimento => setBatimento(batimento)}
+          keyboardType="numeric"
+        />
+      </View>
+
+      <TouchableOpacity style={styles.btnSalvar} onPress={() => cadastrarSinaisVitais()}>
+        <Text style={styles.saveText}>Salvar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.btnCancelar} onPress={() => { }}>
+        <Text style={styles.saveText}>Cancelar</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  )
 };
 
 const styles = StyleSheet.create({
@@ -71,7 +95,7 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingTop: 40,
     backgroundColor: '#fff'
-  },  
+  },
   signalsContainer: {
     padding: 16,
     width: '100%',
@@ -81,7 +105,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     elevation: 2,
     shadowColor: '#222'
-  },  
+  },
   label: {
     marginBottom: 8,
     color: '#000',
