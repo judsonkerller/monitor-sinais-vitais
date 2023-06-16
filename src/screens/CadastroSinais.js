@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import moment from "moment/moment";
 
 import { auth } from '../config/firebase';
 import { getFirestore, collection, addDoc } from "firebase/firestore";
@@ -11,6 +13,8 @@ const CadastroSinais = () => {
   const [glicose, setGlicose] = useState('');
   const [temperatura, setTemperatura] = useState('');
   const [batimento, setBatimento] = useState('');
+
+  const navigation = useNavigation();
   
   async function cadastrarSinaisVitais() {
     const collec = collection(db, "/Sinais-Vitais");
@@ -18,14 +22,21 @@ const CadastroSinais = () => {
       pressao: pressao,
       glicose: glicose,
       temperatura: temperatura,
-      batimento: batimento
+      batimento: batimento,
+      dataCadastro: moment().utcOffset("-03:00").format("DD/MM/YYYY HH:mm:ss"),
+      idUsuario: "1q2w3e"
     })
     .then(() => {
       console.log("Registrado");
+      navigation.navigate('Detalhes Sinais Vitais');
     })
     .catch((error) => {
       console.log("Não registrou " + error);
     });
+  }
+
+  function cancelarCadastro() {
+    navigation.goBack();
   }
 
   return (
@@ -78,10 +89,10 @@ const CadastroSinais = () => {
         />
       </View>
 
-      <TouchableOpacity style={styles.btnSalvar} onPress={() => cadastrarSinaisVitais()}>
+      <TouchableOpacity style={[styles.btn, styles.btnSalvar]} onPress={() => cadastrarSinaisVitais()}>
         <Text style={styles.saveText}>Salvar</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btnCancelar} onPress={() => { }}>
+      <TouchableOpacity style={[styles.btn, styles.btnCancelar]} onPress={() => cancelarCadastro()}>
         <Text style={styles.saveText}>Cancelar</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -118,14 +129,20 @@ const styles = StyleSheet.create({
     height: 35,
     width: '100%'
   },
-  btnSalvar: {
+  btn: {
     position: "absolute",
-    bottom: 16,
     padding: 16,
     width: '100%',
     borderRadius: 8,
-    backgroundColor: '#1F2B5B',
-    alignItems: "center",
+    alignItems: "center"
+  },
+  btnSalvar: {
+    bottom: 80,
+    backgroundColor: '#7ED957'
+  },
+  btnCancelar:{
+    bottom: 16,
+    backgroundColor: '#1F2B5B'
   },
   saveText: {
     color: '#fff',
