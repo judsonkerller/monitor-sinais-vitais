@@ -26,19 +26,15 @@ const CadastroSinais = () => {
       dataCadastro: moment().utcOffset("-03:00").format("DD/MM/YYYY HH:mm:ss"),
       idUsuario: "1q2w3e"
     })
-    .then(() => {
+    .then((e) => {
       console.log("Registrado");
-      navigation.navigate('Detalhes Sinais Vitais');
+      navigation.navigate('Detalhes Sinais Vitais', {idSinais: e.id});
     })
     .catch((error) => {
       console.log("Não registrou " + error);
     });
   }
-
-  function cancelarCadastro() {
-    navigation.goBack();
-  }
-
+  
   return (
     <SafeAreaView style={[styles.container, styles.shadowProp]}>
       <View style={styles.signalsContainer}>
@@ -92,7 +88,7 @@ const CadastroSinais = () => {
       <TouchableOpacity style={[styles.btn, styles.btnSalvar]} onPress={() => cadastrarSinaisVitais()}>
         <Text style={styles.saveText}>Salvar</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.btn, styles.btnCancelar]} onPress={() => cancelarCadastro()}>
+      <TouchableOpacity style={[styles.btn, styles.btnCancelar]} onPress={() => navigation.goBack()}>
         <Text style={styles.saveText}>Cancelar</Text>
       </TouchableOpacity>
     </SafeAreaView>
