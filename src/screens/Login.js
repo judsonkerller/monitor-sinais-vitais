@@ -58,9 +58,9 @@ const styles = StyleSheet.create({
   },
   
   logo: {
-    width: '25rem',
-    height: '25rem',
-    marginTop: '-10rem'
+    width: '80%',
+    height: '60%',
+    marginTop: -200
   },  
   inputContainer: {
     alignItems: 'center',
