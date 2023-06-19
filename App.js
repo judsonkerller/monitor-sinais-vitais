@@ -15,7 +15,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Monitor de Sinais Vitais"
+          name="O nome tá show, West"
           component={LoginScreen}
           options={{ headerShown: false }}
           />
