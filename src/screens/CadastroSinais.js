@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { KeyboardAvoidingView, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment/moment";
 
@@ -15,7 +15,7 @@ const CadastroSinais = () => {
   const [batimento, setBatimento] = useState('');
 
   const navigation = useNavigation();
-  
+
   async function cadastrarSinaisVitais() {
     const collec = collection(db, "/Sinais-Vitais");
     await addDoc(collec, {
@@ -26,92 +26,108 @@ const CadastroSinais = () => {
       dataCadastro: moment().utcOffset("-03:00").format("DD/MM/YYYY HH:mm:ss"),
       idUsuario: "1q2w3e"
     })
-    .then((e) => {
-      console.log("Registrado");
-      navigation.navigate('Detalhes Sinais Vitais', {idSinais: e.id});
-    })
-    .catch((error) => {
-      console.log("Não registrou " + error);
-    });
+      .then((e) => {
+        console.log("Registrado");
+        navigation.navigate('Detalhes Sinais Vitais', { idSinais: e.id });
+      })
+      .catch((error) => {
+        console.log("Não registrou " + error);
+      });
   }
-  
+
   return (
-    <SafeAreaView style={[styles.container, styles.shadowProp]}>
-      <View style={styles.signalsContainer}>
-        <Text style={styles.label}>Pressão (mmHg)</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="120.80"
-          placeholderTextColor="#ccc"
-          value={pressao}
-          onChangeText={pressao => setPressao(pressao)}
-          keyboardType="numeric"
-        />
-      </View>
+    <KeyboardAvoidingView
+      style={[styles.container, styles.shadowProp, styles.width100]}
+    >
+      <ScrollView style={[styles.containerScroll, styles.width100]}>
+        <View style={styles.width100}>
+          <View style={styles.signalsContainer}>
+            <Text style={styles.label}>Pressão (mmHg)</Text>
+            <TextInput
+              style={[styles.input, styles.width100]}
+              placeholder="120.80"
+              placeholderTextColor="#ccc"
+              value={pressao}
+              onChangeText={pressao => setPressao(pressao)}
+              keyboardType="numeric"
+            />
+          </View>
 
-      <View style={styles.signalsContainer}>
-        <Text style={styles.label}>Glicose (mg/dL)</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="98"
-          placeholderTextColor="#ccc"
-          value={glicose}
-          onChangeText={glicose => setGlicose(glicose)}
-          keyboardType="numeric"
-        />
-      </View>
+          <View style={styles.signalsContainer}>
+            <Text style={styles.label}>Glicose (mg/dL)</Text>
+            <TextInput
+              style={[styles.input, styles.width100]}
+              placeholder="98"
+              placeholderTextColor="#ccc"
+              value={glicose}
+              onChangeText={glicose => setGlicose(glicose)}
+              keyboardType="numeric"
+            />
+          </View>
 
-      <View style={styles.signalsContainer}>
-        <Text style={styles.label}>Temperatura (°C)</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="34"
-          placeholderTextColor="#ccc"
-          value={temperatura}
-          onChangeText={temperatura => setTemperatura(temperatura)}
-          keyboardType="numeric"
-        />
-      </View>
+          <View style={styles.signalsContainer}>
+            <Text style={styles.label}>Temperatura (°C)</Text>
+            <TextInput
+              style={[styles.input, styles.width100]}
+              placeholder="34"
+              placeholderTextColor="#ccc"
+              value={temperatura}
+              onChangeText={temperatura => setTemperatura(temperatura)}
+              keyboardType="numeric"
+            />
+          </View>
 
-      <View style={styles.signalsContainer}>
-        <Text style={styles.label}>Batimento (bpm)</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="110"
-          placeholderTextColor="#ccc"
-          value={batimento}
-          onChangeText={batimento => setBatimento(batimento)}
-          keyboardType="numeric"
-        />
-      </View>
+          <View style={styles.signalsContainer}>
+            <Text style={styles.label}>Batimento (bpm)</Text>
+            <TextInput
+              style={[styles.input, styles.width100]}
+              placeholder="110"
+              placeholderTextColor="#ccc"
+              value={batimento}
+              onChangeText={batimento => setBatimento(batimento)}
+              keyboardType="numeric"
+            />
+          </View>          
+        </View>
+      </ScrollView>
 
-      <TouchableOpacity style={[styles.btn, styles.btnSalvar]} onPress={() => cadastrarSinaisVitais()}>
-        <Text style={styles.saveText}>Salvar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={[styles.btn, styles.btnCancelar]} onPress={() => navigation.goBack()}>
-        <Text style={styles.saveText}>Cancelar</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+      <View style={styles.width100}>
+        <TouchableOpacity style={[styles.btn, styles.btnSalvar, styles.width100]} onPress={() => cadastrarSinaisVitais()}>
+          <Text style={styles.saveText}>Salvar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.btn, styles.btnCancelar, styles.width100]} onPress={() => navigation.goBack()}>
+          <Text style={styles.saveText}>Cancelar</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   )
 };
 
 const styles = StyleSheet.create({
+  width100: {
+    width: "100%"
+  },
   container: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "space-between",
     padding: 16,
     paddingTop: 40,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    height: "100%"
   },
   signalsContainer: {
     padding: 16,
-    width: '100%',
     alignItems: "baseline",
     backgroundColor: '#fafafa',
     borderRadius: 8,
     marginBottom: 16,
     elevation: 2,
     shadowColor: '#222'
+  },
+  containerScroll: {
+    height: "100%", 
+    marginBottom: 16
   },
   label: {
     marginBottom: 8,
@@ -122,22 +138,18 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     borderWidth: 1,
     borderRadius: 8,
-    height: 35,
-    width: '100%'
+    height: 35
   },
   btn: {
-    position: "absolute",
     padding: 16,
-    width: '100%',
     borderRadius: 8,
     alignItems: "center"
   },
   btnSalvar: {
-    bottom: 80,
-    backgroundColor: '#7ED957'
+    backgroundColor: '#7ED957',
+    marginBottom: 16
   },
-  btnCancelar:{
-    bottom: 16,
+  btnCancelar: {
     backgroundColor: '#1F2B5B'
   },
   saveText: {
