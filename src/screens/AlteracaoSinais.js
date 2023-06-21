@@ -47,15 +47,6 @@ const AlteracaoSinais = ({ navigation, route }) => {
             .then(() => {
                 console.log("Alterado");
                 navigation.navigate('Detalhes Sinais Vitais', { idSinais: idSinais });
-                /*navigation.reset({
-                    index: 0,
-                    routes: [
-                        {
-                            name: 'Detalhes Sinais Vitais',
-                            params: { idSinais: idSinais },
-                        },
-                    ],
-                })*/
             })
             .catch((error) => {
                 console.log("Não alterou " + error);

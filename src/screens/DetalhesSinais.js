@@ -15,10 +15,10 @@ const DetalhesSinais = ({ navigation, route }) => {
     const [idSinais, setIdSinais] = useState(route.params.idSinais);
 
     const document = doc(db, "/Sinais-Vitais", idSinais);
-    
+
     useEffect(() => {
-        async function buscarDados() {
-            await getDoc(document)
+        navigation.addListener("focus", () =>
+            getDoc(document)
                 .then((dados) => {
                     if (dados.exists()) {
                         setPressao(dados.data().pressao);
@@ -33,10 +33,9 @@ const DetalhesSinais = ({ navigation, route }) => {
                 })
                 .catch((error) => {
                     console.log("Erro ao buscar documento " + error);
-                });
-        }
-        buscarDados();
-    }, []);
+                })
+        )
+    }, [navigation]);
 
     function alertaExclusao() {
         Alert.alert('Excluir Sinais Vitais', 'Confirma a exclusão dos sinais vitais?', [
