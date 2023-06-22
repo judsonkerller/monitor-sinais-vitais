@@ -5,6 +5,7 @@ import moment from "moment/moment";
 
 import { auth } from '../config/firebase';
 import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const db = getFirestore(auth);
 
@@ -17,6 +18,15 @@ const CadastroSinais = () => {
   const navigation = useNavigation();
 
   async function cadastrarSinaisVitais() {
+    const autho = getAuth();
+    const user = autho.currentUser;
+
+    if (user) {
+      console.log(user.uid);
+    } else {
+      console.log("Cadastro - Usuário não está logado");
+    }
+
     const collec = collection(db, "/Sinais-Vitais");
     await addDoc(collec, {
       pressao: pressao,
@@ -24,7 +34,7 @@ const CadastroSinais = () => {
       temperatura: temperatura,
       batimento: batimento,
       dataCadastro: moment().utcOffset("-03:00").format("DD/MM/YYYY HH:mm:ss"),
-      idUsuario: "1q2w3e"
+      idUsuario: user.uid
     })
       .then((e) => {
         console.log("Registrado");
@@ -87,7 +97,7 @@ const CadastroSinais = () => {
               onChangeText={batimento => setBatimento(batimento)}
               keyboardType="numeric"
             />
-          </View>          
+          </View>
         </View>
       </ScrollView>
 
@@ -126,7 +136,7 @@ const styles = StyleSheet.create({
     shadowColor: '#222'
   },
   containerScroll: {
-    height: "100%", 
+    height: "100%",
     marginBottom: 16
   },
   label: {

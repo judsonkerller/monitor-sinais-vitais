@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { auth } from "../config/firebase";
 import { collection, getDocs, getFirestore, orderBy, query, where } from "firebase/firestore";
+import { getAuth } from 'firebase/auth';
 
 const db = getFirestore(auth);
 
@@ -16,7 +17,16 @@ const Principal = () => {
 
   useEffect(() => {
     navigation.addListener("focus", async () => {
-      const q = query(collec, where("idUsuario", "==", "1q2w3e"), orderBy("dataCadastro", "desc"));
+      const autho = getAuth();
+      const user = autho.currentUser;
+
+      if (user) {
+        console.log(user.uid);
+      } else {
+        console.log("Usuário não está logado");
+      }
+
+      const q = query(collec, where("idUsuario", "==", user.uid), orderBy("dataCadastro", "desc"));
       const docs = await getDocs(q);
       const documents = [];
 
