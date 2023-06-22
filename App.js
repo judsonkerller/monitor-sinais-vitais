@@ -7,6 +7,7 @@ import Cadastro from './src/screens/Cadastro';
 import CadastroSinais from './src/screens/CadastroSinais';
 import DetalhesSinais from './src/screens/DetalhesSinais';
 import Principal from './src/screens/Principal';
+import AlteracaoSinais from './src/screens/AlteracaoSinais';
 
 const Stack = createStackNavigator();
 
@@ -16,20 +17,20 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="O nome tá show, West"
+          name="Login"
           component={LoginScreen}
           options={{ headerShown: false }}
-          />
+        />
 
-        <Stack.Screen 
+        <Stack.Screen
           name='Novo Cadastro'
           component={Cadastro}
-          options={{ 
+          options={{
             headerShown: true
           }}
         />
 
-        <Stack.Screen 
+        <Stack.Screen
           name='Cadastro Sinais Vitais'
           component={CadastroSinais}
           options={{
@@ -37,7 +38,7 @@ const App = () => {
           }}
         />
 
-        <Stack.Screen 
+        <Stack.Screen
           name='Detalhes Sinais Vitais'
           component={DetalhesSinais}
           options={{
@@ -45,7 +46,15 @@ const App = () => {
           }}
         />
 
-        <Stack.Screen 
+        <Stack.Screen
+          name='Editar Sinais Vitais'
+          component={AlteracaoSinais}
+          options={{
+            headerShown: true
+          }}
+        />
+
+        <Stack.Screen
           name='Principal'
           component={Principal}
           options={{
@@ -54,7 +63,7 @@ const App = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
-          
+
   );
 };
 

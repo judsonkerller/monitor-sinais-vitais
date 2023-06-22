@@ -12,12 +12,13 @@ const DetalhesSinais = ({ navigation, route }) => {
     const [temperatura, setTemperatura] = useState('');
     const [batimento, setBatimento] = useState('');
     const [dataCadastro, setDataCadastro] = useState('');
+    const [idSinais, setIdSinais] = useState(route.params.idSinais);
 
-    const document = doc(db, "/Sinais-Vitais", route.params.idSinais);
+    const document = doc(db, "/Sinais-Vitais", idSinais);
 
     useEffect(() => {
-        async function buscarDados() {
-            await getDoc(document)
+        navigation.addListener("focus", () =>
+            getDoc(document)
                 .then((dados) => {
                     if (dados.exists()) {
                         setPressao(dados.data().pressao);
@@ -25,16 +26,16 @@ const DetalhesSinais = ({ navigation, route }) => {
                         setTemperatura(dados.data().temperatura);
                         setBatimento(dados.data().batimento);
                         setDataCadastro(dados.data().dataCadastro);
+                        console.log("Documento buscado");
                     } else {
                         console.log("Documento não encontrado");
                     }
                 })
                 .catch((error) => {
                     console.log("Erro ao buscar documento " + error);
-                });
-        }
-        buscarDados();
-    }, []);
+                })
+        )
+    }, [navigation]);
 
     function alertaExclusao() {
         Alert.alert('Excluir Sinais Vitais', 'Confirma a exclusão dos sinais vitais?', [
@@ -91,13 +92,22 @@ const DetalhesSinais = ({ navigation, route }) => {
             </ScrollView>
 
             <View style={styles.width100}>
-                <TouchableOpacity style={[styles.btn, styles.btnEditar, styles.width100]} onPress={() => { navigation.navigate('Editar Sinais Vitais') }}>
+                <TouchableOpacity
+                    style={[styles.btn, styles.btnEditar, styles.width100]}
+                    onPress={() => { navigation.navigate('Editar Sinais Vitais', { idSinais: idSinais }) }}
+                >
                     <Text style={styles.btnText}>Editar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.btn, styles.btnExcluir, styles.width100]} onPress={() => { alertaExclusao() }}>
+                <TouchableOpacity
+                    style={[styles.btn, styles.btnExcluir, styles.width100]}
+                    onPress={() => { alertaExclusao() }}
+                >
                     <Text style={styles.btnText}>Excluir</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.btn, styles.btnRetornar, styles.width100]} onPress={() => { navigation.navigate('Principal') }}>
+                <TouchableOpacity
+                    style={[styles.btn, styles.btnRetornar, styles.width100]}
+                    onPress={() => { navigation.navigate('Principal') }}
+                >
                     <Text style={styles.btnText}>Retornar</Text>
                 </TouchableOpacity>
             </View>
