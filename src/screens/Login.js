@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { LogIn } from '../services/requisicoesFirebase';
-
+import { CommonActions, useNavigation } from '@react-navigation/native';
+import { getAuth, signInWithEmailAndPassword } from '@firebase/auth';
 
 const LoginScreen = () => {
 
@@ -10,28 +9,35 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  function realizarLogin() {
-    LogIn(email, senha)
+  async function realizarLogin() {
+    const auth = getAuth();
+
+    await signInWithEmailAndPassword(auth, email, senha)
       .then(() => {
         console.log('Usuário logado com sucesso!');
-        setEmail("")
-        setSenha("")
-        navigation.navigate("Principal");
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              { name: 'Principal' },
+            ],
+          })
+        );
       })
-      .catch((erro) => console.log("Não logou - ", erro));
+      .catch((erro) => {
+        console.log("Não logou - ", erro.message);
+      });
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-
-
+    <SafeAreaView style={styles.container} >
       <Image
         style={styles.logo}
         source={require('../../assets/logo-principal.png')}
       />
       <KeyboardAvoidingView>
 
-        <View style={styles.inputContainer}>
+        <View style={styles.inputContainer} >
           <TextInput
             style={styles.input}
             placeholder='Email'
@@ -73,7 +79,6 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-
     width: 400,
     height: 300,
     marginTop: -170
