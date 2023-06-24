@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/screens/Login';
@@ -8,6 +8,7 @@ import CadastroSinais from './src/screens/CadastroSinais';
 import DetalhesSinais from './src/screens/DetalhesSinais';
 import Principal from './src/screens/Principal';
 import AlteracaoSinais from './src/screens/AlteracaoSinais';
+import BotaoLogout from './src/components/BotaoLogout';
 
 const Stack = createStackNavigator();
 
@@ -58,7 +59,10 @@ const App = () => {
           name='Principal'
           component={Principal}
           options={{
-            headerShown: true
+            headerShown: true,
+            headerRight: () => (
+              <BotaoLogout />
+            ),
           }}
         />
       </Stack.Navigator>
